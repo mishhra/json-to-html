@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>JSON to HTML Table</title>
+    <style>
+      body {
+        font-family: "Segoe UI", "Roboto", Arial, sans-serif;
+        background: #f8f9fa;
+        margin: 0 auto;
+        width: 90vw;
+        padding: 0 0 40px 0;
+        color: #222;
+      }
+      h2 {
+        margin-top: 32px;
+        margin-bottom: 12px;
+        font-weight: 500;
+        color: #333;
+      }
+      #json-input {
+        width: 100%;
+        max-width: 700px;
+        font-size: 16px;
+        padding: 12px;
+        border-radius: 6px;
+        border: 1px solid #bbb;
+        margin-bottom: 16px;
+        background: #fff;
+        box-sizing: border-box;
+        transition: border-color 0.2s;
+      }
+      #json-input:focus {
+        border-color: #0078d4;
+        outline: none;
+      }
+      #convert-btn {
+        background: linear-gradient(90deg, #0078d4 0%, #005fa3 100%);
+        color: #fff;
+        border: none;
+        border-radius: 6px;
+        padding: 10px 24px;
+        font-size: 16px;
+        cursor: pointer;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+        transition: background 0.2s, box-shadow 0.2s;
+        margin-bottom: 24px;
+      }
+      #convert-btn:hover {
+        background: linear-gradient(90deg, #005fa3 0%, #0078d4 100%);
+        box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+      }
+      #modal {
+        display: none;
+        position: fixed;
+        z-index: 1000;
+        left: 0;
+        top: 0;
+        width: 100vw;
+        height: 100vh;
+        background: rgba(0, 0, 0, 0.5);
+        justify-content: center;
+        align-items: center;
+        animation: fadeIn 0.2s;
+      }
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+        }
+        to {
+          opacity: 1;
+        }
+      }
+      #modal-content {
+        background: #fff;
+        padding: 32px 24px 24px 24px;
+        border-radius: 12px;
+        min-width: 320px;
+        max-width: 60vw;
+        max-height: 70vh;
+        overflow: auto;
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.18);
+        position: relative;
+        animation: slideUp 0.2s;
+      }
+      @keyframes slideUp {
+        from {
+          transform: translateY(40px);
+          opacity: 0;
+        }
+        to {
+          transform: translateY(0);
+          opacity: 1;
+        }
+      }
+      #close-modal {
+        position: absolute;
+        top: 16px;
+        right: 20px;
+        cursor: pointer;
+        font-size: 24px;
+        color: #888;
+        transition: color 0.2s;
+      }
+      #close-modal:hover {
+        color: #0078d4;
+      }
+      #table-container {
+        margin-top: 12px;
+      }
+      table {
+        border-collapse: collapse;
+        width: 100%;
+        background: #fff;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03);
+        margin-bottom: 16px;
+      }
+      th,
+      td {
+        border: 1px solid #e2e2e2;
+        padding: 10px 12px;
+        text-align: left;
+        font-size: 15px;
+      }
+      th {
+        background: #f4f4f4;
+        font-weight: 600;
+        color: #333;
+      }
+      tr:nth-child(even) td {
+        background: #fafbfc;
+      }
+      tr:hover td {
+        background: #eaf6ff;
+      }
+      #history-table {
+        margin-top: 32px;
+        border-radius: 8px;
+        overflow: hidden;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03);
+      }
+      #history-table th,
+      #history-table td {
+        border: 1px solid #e2e2e2;
+        padding: 10px 12px;
+      }
+      #history-table th {
+        background: #f4f4f4;
+      }
+      .read-more {
+        color: #0078d4;
+        text-decoration: underline;
+        cursor: pointer;
+        font-size: 14px;
+        margin-left: 4px;
+        transition: color 0.2s;
+      }
+      .read-more:hover {
+        color: #005fa3;
+      }
+      @media (max-width: 700px) {
+        #modal-content {
+          max-width: 95vw;
+          min-width: 0;
+        }
+        #json-input {
+          max-width: 98vw;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <h2>Paste JSON below:</h2>
+    <textarea id="json-input" rows="10" cols="50"></textarea><br />
+    <button id="convert-btn">Convert to Table</button>
+
+    <!-- History Table -->
+    <table id="history-table">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Timestamp</th>
+          <th>Content</th>
+        </tr>
+      </thead>
+      <tbody>
+        <!-- Entries will be added here -->
+      </tbody>
+    </table>
+
+    <!-- Modal -->
+    <div id="modal">
+      <div id="modal-content">
+        <span id="close-modal">&times;</span>
+        <div id="table-container"></div>
+      </div>
+    </div>
+
+    <script type="module" src="script.js"></script>
+  </body>
+</html>
