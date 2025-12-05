@@ -46,7 +46,16 @@ export function convertJsonToTable(jsonData, containerId) {
         keyCell.style.background = "#fafbfc";
         row.appendChild(keyCell);
 
-        data.forEach((obj) => {
+        // Collect values for comparison
+        const values = data.map((obj) => {
+          const value = obj[key];
+          if (typeof value === "object" && value !== null) {
+            return "[object]"; // Use a placeholder for objects
+          }
+          return value ?? "—";
+        });
+
+        data.forEach((obj, colIdx) => {
           const td = document.createElement("td");
           td.style.border = "1px solid #e2e2e2";
           td.style.padding = "10px 12px";
@@ -56,6 +65,13 @@ export function convertJsonToTable(jsonData, containerId) {
             td.appendChild(buildTable(value));
           } else {
             td.textContent = value ?? "—";
+          }
+          // Highlight if value is different from at least one other column
+          if (
+            values.length > 1 &&
+            values.some((v, i) => i !== colIdx && v !== values[colIdx])
+          ) {
+            td.style.background = "#fffbe6"; // light yellow
           }
           row.appendChild(td);
         });
